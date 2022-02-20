@@ -6,6 +6,7 @@ import (
 
 	"github.com/opxyc/go-l-grpc/api"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 // main starts a gRPC server and waits for connection
@@ -18,8 +19,17 @@ func main() {
 	// create a server instance
 	s := &api.Server{}
 
+	// create TLS credentials
+	creds, err := credentials.NewServerTLSFromFile("cert/server/server.crt", "cert/server/server.decrypted.key")
+	if err != nil {
+		log.Fatalf("could not load certificate: %v", err)
+	}
+
+	// create an array of gRPC options with the credentials
+	optns := []grpc.ServerOption{grpc.Creds(creds)}
+
 	// create a gRPC server object
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(optns...)
 
 	// attach the Ping service to the server
 	api.RegisterPingServer(grpcServer, s)

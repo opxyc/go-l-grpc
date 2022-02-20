@@ -6,10 +6,16 @@ import (
 
 	"github.com/opxyc/go-l-grpc/api"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 func main() {
-	conn, err := grpc.Dial(":7777", grpc.WithInsecure())
+	creds, err := credentials.NewClientTLSFromFile("cert/server/server.crt", "")
+	if err != nil {
+		log.Fatalf("could not load certificate: %v", err)
+	}
+
+	conn, err := grpc.Dial(":7777", grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("could not connect: %v", err)
 	}
