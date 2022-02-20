@@ -5,7 +5,8 @@ Reference: https://medium.com/pantomath/how-we-use-grpc-to-build-a-client-server
 ## Sections
 
 - [#1](../../tree/basic-client-server) Create proto file, generate go code, write a server and client
-- [#2](../../tree/authenticating-server) Secure the communication using SSL - Authenticating the server
+- [#2](../../tree/authenticating-server) Secure the communication - Authenticating the server
+- [#3](../../tree/identifying-client) Secure the communication - Identifying the Clients
 
 ---
 
@@ -67,3 +68,8 @@ openssl rsa -in cert/server/server.key -out cert/server/server.decrypted.key
 ```
 
 Above commands will generates server key and certificate, which we can use to authenticate the server. (we can also sign the certificate ourselves without the CA)
+
+### Identifying the Client
+
+Another interesting feature of the gRPC server is the ability to intercept a request from the client. The client can inject information on the transport layer. We can use that feature to identify our client, because the SSL implementation authenticates the server (via the certificate), but not the client (all our clients are using the same certificate).
+So we'll update the client side to inject metadata on every call (like a login and password), and the server side to check these credentials for every incoming call.
