@@ -1,5 +1,5 @@
-SERVER_OUT := "server/server"
-CLIENT_OUT := "client/client"
+SERVER_OUT := "server/server.bin"
+CLIENT_OUT := "client/client.bin"
 PKG := "github.com/opxyc/go-l-grpc"
 SERVER_PKG_BUILD := "${PKG}/server"
 CLIENT_PKG_BUILD := "${PKG}/client"
