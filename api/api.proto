@@ -1,0 +1,13 @@
+syntax = "proto3";
+option go_package = "github.com/opxyc/go-l-grpc/api";
+package api;
+
+message PingMessage {
+  string greeting = 1;
+}
+
+// a service called Ping that exposes a function called SayHello with an incoming
+// PingMessage and returns a PingMessage
+service Ping {
+  rpc SayHello(PingMessage) returns (PingMessage) {}
+}
